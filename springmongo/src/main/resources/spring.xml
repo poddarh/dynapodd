@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/data/mongo
+        http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd">
+	
+    <context:component-scan base-package="org.dynapodd.springmongo" />
+	<context:annotation-config />
+    
+	<!-- Mongo Configuration Starts -->
+
+	<mongo:mongo host="127.0.0.1" port="27017" />
+	<mongo:db-factory dbname="example" />
+	<mongo:mapping-converter id="converter" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate"
+		autowire="byName">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean>
+	<bean name="gridOperations"
+		class="org.springframework.data.mongodb.gridfs.GridFsTemplate"
+		autowire="byName">
+		<constructor-arg ref="mongoDbFactory" />
+		<constructor-arg ref="converter" />
+	</bean>
+
+	<!-- Mongo Configuration Ends -->
+
+</beans>
