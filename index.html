@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Dynapodd : CRUD made easier">
+    <meta name="description" content="Dynapodd : CRUD made simpler">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/poddarh/dynapodd">View on GitHub</a>
 
           <h1 id="project_title">Dynapodd</h1>
-          <h2 id="project_tagline">CRUD made easier</h2>
+          <h2 id="project_tagline">CRUD made simpler</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/poddarh/dynapodd/zipball/master">Download this project as a .zip file</a>
@@ -34,12 +34,12 @@
         <h1>
 <a id="dynapodd" class="anchor" href="#dynapodd" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dynapodd</h1>
 
-<p>Dynapodd makes database calls simpler. There are support classes for the <strong>Hibernate</strong>framework and the <strong>Spring Data MongoDB</strong>framework. Using DynaPodd, one can eleminate writing most quries by accepting an object and writing a query based on its non-null fields. If passed in a 'user' object with email and password fields with some value and rest null, it will write a query to find all 'similar' records (record with the email and password as passed in the object). A regular POJO can be used with this, although there are some restrictions and rules:</p>
+<p>Dynapodd makes database calls simpler. Currently, there are support classes for the <strong>Hibernate</strong> framework and the <strong>Spring Data MongoDB</strong> framework. Using DynaPodd, one can eliminate writing most queries. Methods in the BasicDAO class of Dynapodd generates and executes queries from an object’s non-null fields. If passed in a 'user' object with email and password fields with some value and rest null, it will write a query to find all 'similar' records (record with the email and password as passed in the object). A regular POJO can be used with this, although there are some restrictions and rules:</p>
 
 <ul>
 <li>A model class cannot have any primitive members - rather use wrapper classes</li>
-<li>The ID member should be annoted with <em>org.springframework.data.annotation.Id</em> (when using Spring Data) or with <em>javax.persistence.Id</em> (when using Hibernate). This is mandatory even if XML based configuration already mentions so.</li>
-<li>A member that is not part of table/collection has to be annoted with <em>org.springframework.data.annotation.Transient</em> (when using Spring Data) or with <em>javax.persistence.Transient</em> (when using Hibernate). Just like ID, this is mandatory as well.</li>
+<li>The ID member should be annotated  with <em>org.springframework.data.annotation.Id</em> (when using Spring Data) or with <em>javax.persistence.Id</em> (when using Hibernate). This is mandatory even if XML based configuration already mentions so.</li>
+<li>A member that is not part of table/collection has to be annotated with <em>org.springframework.data.annotation.Transient</em> (when using Spring Data) or with <em>javax.persistence.Transient</em> (when using Hibernate). Just like ID, this is mandatory as well.</li>
 <li>Hibernate ID member should be of type <em>java.lang.Integer</em> and Spring Data ID member should be of <em>java.lang.String</em> type.</li>
 </ul>
 
@@ -49,7 +49,7 @@
 <h5>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h5>
 
-<p>You may copy the classes BasicDAO and DAOUtil of the <em>org.dynapodd.springmongo</em> package.</p>
+<p>You may either copy the classes BasicDAO and DAOUtil of the <em>org.dynapodd.springmongo</em> package or you may <a href="http://poddarh.github.io/dynapodd/jars/springmongo.jar">download the jar</a></p>
 
 <h5>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h5>
@@ -73,7 +73,7 @@ user = basicDAO.findOne(user);
 </code></pre>
 
 <h5>
-<a id="avaliable-methods" class="anchor" href="#avaliable-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Avaliable methods</h5>
+<a id="available-methods" class="anchor" href="#available-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Available methods</h5>
 
 <ul>
 <li>
@@ -102,15 +102,13 @@ user = basicDAO.findOne(user);
 <strong>void removeMany(T object)</strong>: Removes all similar records permanently from the database</li>
 </ul>
 
-<p>For more info, please refer to the <a href="http://google.com">documentation</a>. </p>
-
 <h3>
 <a id="hibernate" class="anchor" href="#hibernate" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hibernate</h3>
 
 <h5>
 <a id="installation-1" class="anchor" href="#installation-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h5>
 
-<p>You may copy the classes BasicDAO and DAOUtil of the <em>org.dynapodd.hibernate</em> package.</p>
+<p>You may either copy the classes BasicDAO and DAOUtil of the <em>org.dynapodd.hibernate</em> package or you may <a href="http://poddarh.github.io/dynapodd/jars/hibernate.jar">download the jar</a></p>
 
 <h5>
 <a id="usage-1" class="anchor" href="#usage-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h5>
@@ -140,7 +138,7 @@ user = basicDAO.findOne(user);
 </code></pre>
 
 <h5>
-<a id="avaliable-methods-1" class="anchor" href="#avaliable-methods-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Avaliable methods</h5>
+<a id="available-methods-1" class="anchor" href="#available-methods-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Available methods</h5>
 
 <ul>
 <li>
@@ -178,12 +176,12 @@ user = basicDAO.findOne(user);
 <strong>void closeSession(Session session)</strong>:  Commits a transacton and then closes the session</li>
 </ul>
 
-<p>For more info, please refer to the <a href="http://google.com">documentation</a>. </p>
+<p>For more info, please refer to the <a href="http://poddarh.github.io/dynapodd/javadoc">javadoc</a>. </p>
 
 <h3>
 <a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h3>
 
-<p>Want to contribute? Great!</p>
+<p>Please contribute to the project :)</p>
 
 <h2>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
