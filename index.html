@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Dynapodd : CRUD made easier">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Dynapodd</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/poddarh/dynapodd">View on GitHub</a>
+
+          <h1 id="project_title">Dynapodd</h1>
+          <h2 id="project_tagline">CRUD made easier</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/poddarh/dynapodd/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/poddarh/dynapodd/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="dynapodd" class="anchor" href="#dynapodd" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dynapodd</h1>
+
+<p>Dynapodd makes database calls simpler. There are support classes for the <strong>Hibernate</strong>framework and the <strong>Spring Data MongoDB</strong>framework. Using DynaPodd, one can eleminate writing most quries by accepting an object and writing a query based on its non-null fields. If passed in a 'user' object with email and password fields with some value and rest null, it will write a query to find all 'similar' records (record with the email and password as passed in the object). A regular POJO can be used with this, although there are some restrictions and rules:</p>
+
+<ul>
+<li>A model class cannot have any primitive members - rather use wrapper classes</li>
+<li>The ID member should be annoted with <em>org.springframework.data.annotation.Id</em> (when using Spring Data) or with <em>javax.persistence.Id</em> (when using Hibernate). This is mandatory even if XML based configuration already mentions so.</li>
+<li>A member that is not part of table/collection has to be annoted with <em>org.springframework.data.annotation.Transient</em> (when using Spring Data) or with <em>javax.persistence.Transient</em> (when using Hibernate). Just like ID, this is mandatory as well.</li>
+<li>Hibernate ID member should be of type <em>java.lang.Integer</em> and Spring Data ID member should be of <em>java.lang.String</em> type.</li>
+</ul>
+
+<h3>
+<a id="spring-data-mongodb" class="anchor" href="#spring-data-mongodb" aria-hidden="true"><span class="octicon octicon-link"></span></a>Spring Data MongoDB</h3>
+
+<h5>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h5>
+
+<p>You may copy the classes BasicDAO and DAOUtil of the <em>org.dynapodd.springmongo</em> package.</p>
+
+<h5>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h5>
+
+<p>The BasicDAO needs to be initiated using Spring's DI as a singleton object. The MongoTemplate is annoted <a href="https://github.com/Autowired" class="user-mention">@Autowired</a>. It simplifies the basic CRUD operations. The DAOUtil class has methods that may help in custom methods other than the common ones in the BasicDAO.</p>
+
+<p><strong>Example</strong>: The conventional way of finding a user record by its username and password.</p>
+
+<pre><code>Query query = new Query();
+query.addCriteria(Criteria.where("email").is(email));
+query.addCriteria(Criteria.where("password").is(password));
+User user =  mongoTemplate.findOne(query, User.class);
+</code></pre>
+
+<p>... now using Dynapodd ...</p>
+
+<pre><code>User user = new User();
+user.setEmail(email);
+user.setPassword(password);
+user = basicDAO.findOne(user);
+</code></pre>
+
+<h5>
+<a id="avaliable-methods" class="anchor" href="#avaliable-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Avaliable methods</h5>
+
+<ul>
+<li>
+<strong>List&lt;T&gt; find(T object)</strong>: Find all similar objects</li>
+<li>
+<strong>List&lt;T&gt; find(T object, int limit, int offset)</strong>: Find similar objects with pagination</li>
+<li>
+<strong>List&lt;T&gt; find(T object, String sortColumn, Direction direction)</strong>: Find all similar objects in a sorted list</li>
+<li>
+<strong>List&lt;T&gt; find(T object, String sortColumn, Direction direction, int limit, int offset)</strong>: Find similar objects in a sorted list with pagination</li>
+<li>
+<strong>T findOne(T object)</strong>: Find a single similar object. Returns the first match found</li>
+<li>
+<strong>long count(T object)</strong>: Returns a count of similar objects</li>
+<li>
+<strong>void save(T object)</strong>: Saves an object (mimics the MongoTemplate save method)</li>
+<li>
+<strong>void insert(T object)</strong>: Inserts an object (mimics the MongoTemplate insert method)</li>
+<li>
+<strong>boolean updateByID(String id, T object)</strong>: Updates the record with the id specified with the non-null fields in the object</li>
+<li>
+<strong>boolean update(T queryObject, T dataObject)</strong>: Updates all records similar to queryObject with the non-null fields in the dataObject</li>
+<li>
+<strong>void remove(T object)</strong>: Removes a record by ID in the object (mimics the MongoTemplate remove method)</li>
+<li>
+<strong>void removeMany(T object)</strong>: Removes all similar records permanently from the database</li>
+</ul>
+
+<p>For more info, please refer to the <a href="http://google.com">documentation</a>. </p>
+
+<h3>
+<a id="hibernate" class="anchor" href="#hibernate" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hibernate</h3>
+
+<h5>
+<a id="installation-1" class="anchor" href="#installation-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h5>
+
+<p>You may copy the classes BasicDAO and DAOUtil of the <em>org.dynapodd.hibernate</em> package.</p>
+
+<h5>
+<a id="usage-1" class="anchor" href="#usage-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h5>
+
+<p>The BasicDAO needs to be initiated by passing an instance of 'org.hibernate.SessionFactory' to its constructor. This shall be used as a singleton object. It simplifies the basic CRUD operations. The DAOUtil class has methods that may help in custom methods other than the common ones in the BasicDAO.</p>
+
+<p><strong>Example</strong>: The conventional way of finding a user record by its username and password.</p>
+
+<pre><code>Session session = sessionFactory.openSession();
+session.beginTransaction();
+
+Criteria criteria = session.createCriteria(User.class);
+criteria.add(Restrictions.eq("email", email));
+criteria.add(Restrictions.eq("password", password));
+User user = (User) criteria.uniqueResult();
+
+session.getTransaction().commit();
+session.close();
+</code></pre>
+
+<p>... now using Dynapodd ...</p>
+
+<pre><code>User user = new User();
+user.setEmail(email);
+user.setPassword(password);
+user = basicDAO.findOne(user);
+</code></pre>
+
+<h5>
+<a id="avaliable-methods-1" class="anchor" href="#avaliable-methods-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Avaliable methods</h5>
+
+<ul>
+<li>
+<strong>List&lt;T&gt; find(T object)</strong>: Find all similar objects</li>
+<li>
+<strong>List&lt;T&gt; find(T object, int limit, int offset)</strong>: Find similar objects with pagination</li>
+<li>
+<strong>List&lt;T&gt; find(T object, String sortColumn, Direction direction)</strong>: Find all similar objects in a sorted list</li>
+<li>
+<strong>List&lt;T&gt; find(T object, String sortColumn, Direction direction, int limit, int offset)</strong>: Find similar objects in a sorted list with pagination</li>
+<li>
+<strong>T findOne(int id,  Class&lt;T&gt; type)</strong>: Find an object with the matching I<br>
+</li>
+<li>
+<strong>T findOne(T object)</strong>: Find a single similar object. Returns the first match found</li>
+<li>
+<strong>long count(T object)</strong>: Returns a count of similar objects</li>
+<li>
+<strong>void saveOrUpdate(T object)</strong>: Saves or updates an object (mimics the Session saveOrUpdate method)</li>
+<li>
+<strong>void save(T object)</strong>: Saves an object (mimics the Session save method)</li>
+<li>
+<strong>void update(T queryObject, T dataObject)</strong>: Updates all records similar to queryObject with the non-null fields in the dataObject</li>
+<li>
+<strong>void updateByID(int id, T dataObject)</strong>: Updates record with same id with the non-null fields in the dataObject</li>
+<li>
+<strong>void delete(T object)</strong>: Deletes a record. (mimics the Session delete method)</li>
+<li>
+<strong>void delete(int id,  Class&lt;T&gt; type)</strong>: Finds a record and then deletes it</li>
+<li>
+<strong>void deleteMany(T queryObject)</strong>: Finds and then deletes all similar records</li>
+<li>
+<strong>Session getSession()</strong>: Opens a session, begins transaction and returns the session object</li>
+<li>
+<strong>void closeSession(Session session)</strong>:  Commits a transacton and then closes the session</li>
+</ul>
+
+<p>For more info, please refer to the <a href="http://google.com">documentation</a>. </p>
+
+<h3>
+<a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h3>
+
+<p>Want to contribute? Great!</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>MIT</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Dynapodd maintained by <a href="https://github.com/poddarh">poddarh</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-50628663-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
