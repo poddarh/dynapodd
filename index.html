@@ -34,11 +34,11 @@
         <h1>
 <a id="dynapodd" class="anchor" href="#dynapodd" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dynapodd</h1>
 
-<p>Dynapodd makes database calls simpler. Currently, there are support classes for the <strong>Hibernate</strong> framework and the <strong>Spring Data MongoDB</strong> framework. Using DynaPodd, one can eliminate writing most queries. Methods in the BasicDAO class of Dynapodd generates and executes queries from an object’s non-null fields. If passed in a 'user' object with email and password fields with some value and rest null, it will write a query to find all 'similar' records (record with the email and password as passed in the object). A regular POJO can be used with this, although there are some restrictions and rules:</p>
+<p>Dynapodd makes database calls simpler. Currently, there are support classes for the <strong>Hibernate</strong> framework and the <strong>Spring Data MongoDB</strong> framework. Using Dynapodd, one can eliminate writing most queries. Methods in the BasicDAO class of Dynapodd generates and executes queries from an object’s non-null fields. If passed in a 'user' object with email and password fields with some value and rest null, it will write a query to find all 'similar' records (record with the email and password as passed in the object). A regular POJO can be used with this, although there are some restrictions and rules:</p>
 
 <ul>
 <li>A model class cannot have any primitive members - rather use wrapper classes</li>
-<li>The ID member should be annotated  with <em>org.springframework.data.annotation.Id</em> (when using Spring Data) or with <em>javax.persistence.Id</em> (when using Hibernate). This is mandatory even if XML based configuration already mentions so.</li>
+<li>The ID member should be annotated with <em>org.springframework.data.annotation.Id</em> (when using Spring Data) or with <em>javax.persistence.Id</em> (when using Hibernate). This is mandatory even if XML based configuration already mentions so.</li>
 <li>A member that is not part of table/collection has to be annotated with <em>org.springframework.data.annotation.Transient</em> (when using Spring Data) or with <em>javax.persistence.Transient</em> (when using Hibernate). Just like ID, this is mandatory as well.</li>
 <li>Hibernate ID member should be of type <em>java.lang.Integer</em> and Spring Data ID member should be of <em>java.lang.String</em> type.</li>
 </ul>
@@ -54,7 +54,7 @@
 <h5>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h5>
 
-<p>The BasicDAO needs to be initiated using Spring's DI as a singleton object. The MongoTemplate is annoted <a href="https://github.com/Autowired" class="user-mention">@Autowired</a>. It simplifies the basic CRUD operations. The DAOUtil class has methods that may help in custom methods other than the common ones in the BasicDAO.</p>
+<p>The BasicDAO needs to be initiated using Spring's DI as a singleton object. The MongoTemplate object in BasicDAO is annotated Autowired. It simplifies the basic CRUD operations. The DAOUtil class has methods that may help in custom methods other than the common ones in the BasicDAO.</p>
 
 <p><strong>Example</strong>: The conventional way of finding a user record by its username and password.</p>
 
